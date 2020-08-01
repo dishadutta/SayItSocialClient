@@ -11,7 +11,7 @@ class Posts extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount() = () => {
     list().then(data => {
       if(data.error) {
         console.log(data.error);
