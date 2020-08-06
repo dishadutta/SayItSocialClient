@@ -7,33 +7,18 @@ class Posts extends Component {
   constructor() {
     super();
     this.state = {
-      posts: [],
-      page: 1
+      posts: []
     }
   }
 
-  loadPosts = page => {
-    list(page).then(data => {
+  componentDidMount() {
+    list().then(data => {
       if(data.error) {
         console.log(data.error);
       } else {
         this.setState({ posts: data });
       }
     });
-  }
-
-  componentDidMount() {
-    this.loadPosts(this.state.page);
-  }
-
-  loadMore = number => {
-    this.setState({page: this.state.page + number});
-    this.loadPosts(this.state.page + number);
-  }
-
-  loadLess = number => {
-    this.setState({page: this.state.page - number});
-    this.loadPosts(this.state.page - number);
   }
 
   renderPosts = (posts) => {
@@ -74,21 +59,6 @@ class Posts extends Component {
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">{!posts.length ? "No More Posts! " : "Posts"}</h2>
-        {this.renderPosts(posts)}
-        {
-          page > 1 ? (
-            <button className="btn btn-raised btn-warning mr-5 mt-5 mb-5" onClick={()=>this.loadLess(1)}>
-              Previous ({this.state.page - 1})
-            </button>
-          ) : ( "" )
-        }
-        {
-          posts.length ? (
-            <button className="btn btn-raised btn-warning mr-5 mt-5 mb-5" onClick={()=>this.loadMore(1)}>
-              Next ({this.state.page + 1})
-            </button>
-          ) : ( "" )
-        }
       </div>
     );
   }
